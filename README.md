@@ -1,58 +1,291 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# لام — منصة عربية تفاعلية لتعلم البرمجة 🚀
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<div align="center">
 
-## About Laravel
+![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge\&logo=laravel\&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge\&logo=react\&logoColor=61DAFB)
+![Inertia.js](https://img.shields.io/badge/Inertia.js-9553E9?style=for-the-badge)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?style=for-the-badge\&logo=tailwind-css\&logoColor=white)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-black?style=for-the-badge\&logo=framer\&logoColor=blue)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### تحويل التوثيق التقني إلى تجربة تعليمية تفاعلية وسينمائية باللغة العربية
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+[🌐 الموقع الرسمي](https://lam.eyadcs.dev) •
+[🖥️ GitHub](https://github.com/eyadcsdev/lam-learning-platform) •
+[👨‍💻 المطور](https://eyadcs.dev)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+</div>
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+# ✨ ما هو «لام»؟
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+«لام» ليست منصة كورسات تقليدية.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+المشروع يهدف إلى إعادة تصور طريقة تعلم البرمجة عربيًا عبر تحويل التوثيق الرسمي والتقنيات البرمجية إلى:
 
-## Agentic Development
+* 🎮 تجارب تفاعلية
+* 🧠 محاكاة هندسية داخلية
+* 🌌 دروس سينمائية
+* ⚡ Visual Simulations
+* 🗺️ خرائط تقدم ومستويات
+* 🧩 تعلم بالمهمات والتحديات
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+بدلًا من مجرد شرح:
+
+> كيف تستخدم Laravel؟
+
+تحاول المنصة الإجابة عن:
+
+* لماذا Laravel موجود؟
+* ما المشكلة التي يحلها؟
+* كيف يعمل داخليًا؟
+* كيف تنتقل الطلبات داخل النظام؟
+* كيف يتفاعل الـ Frontend مع الـ Backend؟
+* كيف يفكر الإطار البرمجي من الداخل؟
+
+---
+
+# 📸 Screenshots
+
+## 🏠 الصفحة الرئيسية
+
+![Landing Page](docs/images/landing.png)
+
+---
+
+## 🗺️ خريطة التعلم التفاعلية
+
+![Roadmap](docs/images/roadmap.png)
+
+---
+
+## 🧪 درس Validation التفاعلي
+
+![Validation Lesson](docs/images/validation.png)
+
+---
+
+## ⚙️ درس إعداد البيئة وأساسيات Laravel
+
+![Setup Lesson](docs/images/setup.png)
+
+---
+
+# 🚀 المميزات
+
+## 🎮 تجربة تعليمية Gamified
+
+* نظام XP وتقدم
+* مستويات ومراحل
+* فتح الدروس تدريجيًا
+* تتبع الإنجازات
+* خريطة تقدم تفاعلية
+
+---
+
+## 🧠 شرح هندسي عميق
+
+كل درس يشرح:
+
+1. لماذا يوجد المفهوم
+2. ما المشكلة التي يحلها
+3. كيف يعمل داخليًا
+4. كيف يتم استخدامه عمليًا
+
+---
+
+## ⚡ محاكاة داخلية لـ Laravel
+
+تشمل:
+
+* Request Lifecycle Visualization
+* Validation Flow Simulation
+* Interactive Terminal
+* Request / Response Flow
+* Live Backend Visualization
+* Code Highlighting
+
+---
+
+## 🎨 واجهة حديثة وسينمائية
+
+* تصميم مستوحى من:
+
+  * Linear
+  * Stripe Docs
+  * Vercel
+  * Laravel Docs
+
+* Dark Mode بأسلوب Gruvbox
+
+* Animations وMotion Effects
+
+* تجربة عربية RTL كاملة
+
+---
+
+# 🏗️ Architecture
+
+## Backend
+
+* Laravel
+* Inertia.js
+* SQLite
+
+## Frontend
+
+* React
+* TailwindCSS
+* Framer Motion
+* shadcn/ui
+* Lucide Icons
+
+---
+
+# 📚 الدروس الحالية
+
+## Level 00 — البداية
+
+### إعداد البيئة وأساسيات Laravel
+
+يتضمن:
+
+* شرح Laravel
+* لماذا frameworks موجودة
+* Composer
+* Artisan
+* Request Lifecycle
+* هيكل المشروع
+* Interactive Terminal
+
+---
+
+## Level 01 — Validation
+
+درس تفاعلي يحاكي:
+
+* دورة التحقق من البيانات
+* حركة الطلبات بين الواجهة والسيرفر
+* Laravel Validation Internals
+* عرض الأخطاء بشكل حي
+
+ضمن تجربة تعليمية مستوحاة من مهمة فضائية 🚀
+
+---
+
+# 🧩 الرؤية المستقبلية
+
+سيتم إضافة:
+
+* React
+* Node.js
+* Next.js
+* TypeScript
+* Docker
+* System Design
+* AI Engineering
+* Algorithms
+
+مع الحفاظ على نفس التجربة التفاعلية.
+
+---
+
+# ⚙️ التشغيل محليًا
+
+## 1️⃣ Clone Repository
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone https://github.com/eyadcsdev/lam-learning-platform.git
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+---
 
-## Contributing
+## 2️⃣ Install Dependencies
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+composer install
+npm install
+```
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 3️⃣ Environment Setup
 
-## Security Vulnerabilities
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## 4️⃣ Run Database Migrations
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+php artisan migrate
+```
+
+---
+
+## 5️⃣ Start Development Server
+
+```bash
+php artisan serve
+npm run dev
+```
+
+---
+
+# 🤝 المساهمة
+
+نرحب بالمساهمات لتطوير منصة «لام».
+
+يمكنك المساهمة عبر:
+
+* تحسين الواجهة
+* إضافة دروس جديدة
+* تحسين الأداء
+* إصلاح الأخطاء
+* تطوير التجارب التفاعلية
+* تحسين الأنيميشن والمحاكاة
+
+## Repository
+
+```bash
+https://github.com/eyadcsdev/lam-learning-platform
+```
+
+---
+
+# 👨‍💻 المطور
+
+## إياد الحطامي
+
+* 🌐 [https://eyadcs.dev](https://eyadcs.dev)
+* 💼 [https://www.linkedin.com/in/eyad-alhattami-93280b409/](https://www.linkedin.com/in/eyad-alhattami-93280b409/)
+* 🖥️ [https://github.com/eyadcsdev](https://github.com/eyadcsdev)
+* 📘 [https://www.facebook.com/ayad.alhtamy.75529](https://www.facebook.com/ayad.alhtamy.75529)
+* 💬 [https://wa.me/+967776680640](https://wa.me/+967776680640)
+
+---
+
+# 🔒 License
+
+This project is licensed under the MIT License.
+
+However:
+
+* اسم «لام»
+* الشعار
+* الهوية البصرية
+* المحتوى التعليمي
+
+تظل حقوقها محفوظة.
+
+---
+
+<div align="center">
+
+### صُنع بشغف لبناء مستقبل أفضل للتعليم التقني العربي ❤️
+
+</div>
