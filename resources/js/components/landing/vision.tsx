@@ -4,6 +4,14 @@ import { Link } from "@inertiajs/react"
 import { ArrowLeft, Heart, Quote } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
+function GithubIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor">
+      <path d="M12 .5C5.73.5.7 5.53.7 11.8c0 4.99 3.24 9.22 7.74 10.72.57.1.78-.25.78-.55 0-.27-.01-.99-.02-1.94-3.15.68-3.81-1.52-3.81-1.52-.51-1.31-1.26-1.66-1.26-1.66-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.74 2.66 1.24 3.31.95.1-.74.4-1.24.72-1.53-2.51-.29-5.16-1.26-5.16-5.6 0-1.24.45-2.25 1.17-3.04-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.15 1.16.91-.25 1.89-.38 2.86-.38s1.95.13 2.86.38c2.18-1.47 3.14-1.16 3.14-1.16.62 1.57.23 2.73.11 3.02.73.79 1.17 1.8 1.17 3.04 0 4.35-2.66 5.31-5.19 5.59.41.35.77 1.04.77 2.1 0 1.52-.01 2.74-.01 3.11 0 .3.21.66.79.55 4.49-1.5 7.73-5.73 7.73-10.72C23.3 5.53 18.27.5 12 .5z" />
+    </svg>
+  )
+}
+
 export function Vision() {
   return (
     <section id="community" className="relative py-24 md:py-32">
@@ -70,7 +78,22 @@ export function Vision() {
               variant="outline"
               className="h-12 px-6 text-base font-semibold rounded-xl border-border bg-secondary/40 hover:bg-secondary text-lam-text-soft"
             >
-              <Link href="/roadmap">شاهد المسارات</Link>
+              <Link href="/roadmap/laravel">شاهد المسارات</Link>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="h-12 px-6 text-base font-semibold rounded-xl border-lam-gold/40 bg-secondary/40 hover:bg-lam-gold/10 text-lam-gold hover:border-lam-gold/60"
+            >
+              <a
+                href="https://github.com/eyadcsdev/lam-learning-platform"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <GithubIcon className="size-4 ml-2" />
+                ساهم على GitHub
+              </a>
             </Button>
           </div>
         </div>

@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
+import { useXp } from "@/lib/xp-context"
 
 const navLinks = [
   { href: "/", label: "الرئيسية" },
@@ -23,6 +24,7 @@ const navLinks = [
 export function SiteHeader() {
   const { auth } = usePage().props
   const user = auth?.user ?? null
+  const { xp } = useXp()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -91,7 +93,7 @@ export function SiteHeader() {
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-medium text-lam-text">{user.name}</span>
                       <span className="inline-flex items-center gap-1 rounded-full border border-lam-gold/30 bg-lam-gold/10 px-2 py-0.5 text-[11px] font-semibold text-lam-gold shadow-[0_0_8px_-2px_rgba(250,189,47,0.3)]">
-                        {user.xp} XP
+                        {xp} XP
                       </span>
                     </div>
                   </button>
@@ -194,7 +196,7 @@ export function SiteHeader() {
                   <div>
                     <p className="text-sm font-medium text-lam-text">{user.name}</p>
                     <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-lam-gold">
-                      {user.xp} XP
+                      {xp} XP
                     </span>
                   </div>
                 </div>

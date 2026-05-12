@@ -47,6 +47,6 @@ class GitHubAuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->intended(route('roadmap'))->with('success', 'تم تسجيل الدخول بنجاح');
+        return redirect()->intended(route('roadmap', ['technology' => 'laravel']))->with('success', 'تم تسجيل الدخول بنجاح');
     }
 }

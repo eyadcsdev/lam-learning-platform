@@ -11,6 +11,7 @@ import { CodeEditor } from "@/components/lesson/code-editor"
 import { RequestRadar } from "@/components/lesson/request-radar"
 import { ChallengeCard } from "@/components/lesson/challenge-card"
 import { Confetti } from "@/components/lesson/confetti"
+import { useXp } from "@/lib/xp-context"
 
 export type LessonStep =
   | "prepare"
@@ -41,16 +42,16 @@ export interface ValidationErrors {
   age?: string
 }
 
-export function LessonExperience() {
+export function LessonExperience({ embedded = false, technology = 'laravel' }: { embedded?: boolean; technology?: string }) {
   const [activeStep, setActiveStep] = useState<LessonStep>("prepare")
   const [form, setForm] = useState<FormState>({
     name: "لومي العتيبي",
     email: "loomi@lam.dev",
     age: "19",
   })
+  const { xp, addXp } = useXp()
   const [errors, setErrors] = useState<ValidationErrors>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [xp, setXp] = useState(120)
   const [challengeSolved, setChallengeSolved] = useState(false)
   const [lessonComplete, setLessonComplete] = useState(false)
   const [showConfetti, setShowConfetti] = useState(false)
@@ -114,9 +115,9 @@ export function LessonExperience() {
 
     const t = window.setTimeout(async () => {
       try {
-        const res = await fetch('/validation-demo', {
+        const res = await fetch(`/roadmap/${technology}/validation-demo`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]')?.getAttribute('content') ?? '' },
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]')?.getAttribute('content') ?? '' },
           body: JSON.stringify({ name: form.name, email: form.email, age: form.age }),
         })
 
@@ -126,7 +127,7 @@ export function LessonExperience() {
           setMascotMessage("ممتاز! البيانات صحيحة، الإطلاق ناجح")
           const t2 = window.setTimeout(() => {
             setActiveStep("render")
-            setXp((v) => v + 30)
+            addXp(30)
             setShowConfetti(true)
             window.setTimeout(() => setShowConfetti(false), 2200)
             setIsSubmitting(false)
@@ -162,7 +163,7 @@ export function LessonExperience() {
         const t2 = window.setTimeout(() => {
           setActiveStep(hasError ? "respond" : "render")
           if (!hasError) {
-            setXp((v) => v + 30)
+            addXp(30)
             setShowConfetti(true)
             window.setTimeout(() => setShowConfetti(false), 2200)
           }
@@ -174,18 +175,17 @@ export function LessonExperience() {
     submitTimeouts.current.push(t)
   }
 
-  const handleChallengeSolved = () => {
+  const handleChallengeSolved = async () => {
     if (challengeSolved) return
     setChallengeSolved(true)
     setLessonComplete(true)
-    setXp((v) => v + 80)
     setShowConfetti(true)
     setMascotMessage(
       "أحسنت! أضفت قاعدة min:21 وأنقذت المهمة. تم فتح الخطوة التالية!",
     )
     window.setTimeout(() => setShowConfetti(false), 2400)
     window.setTimeout(() => setShowNextLesson(true), 3000)
-    fetch('/lessons/validation/complete', {
+    await fetch(`/roadmap/${technology}/lessons/validation/complete`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]')?.getAttribute('content') ?? '' },
     })
@@ -198,73 +198,75 @@ export function LessonExperience() {
   )
 
   return (
-    <div className="relative min-h-svh overflow-hidden">
-      <AmbientBackdrop variant="intense" />
+    <div className={`${embedded ? '' : 'relative min-h-svh overflow-hidden'}`}>
+      {!embedded && <AmbientBackdrop variant="intense" />}
 
       {/* Top header (lesson-specific) */}
-      <header className="sticky top-0 z-40">
-        <div className="mx-auto max-w-[1400px] px-3 sm:px-4 pt-3 sm:pt-4">
-          <div className="lam-glass-strong rounded-2xl px-3 sm:px-4 py-2.5 flex items-center gap-3 border border-border/60">
-            <Link href="/roadmap" className="shrink-0">
-              <LamLogo size={28} showWordmark={false} />
-            </Link>
-            <div className="hidden sm:block h-6 w-px bg-border" />
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-[10px] font-mono text-lam-text-muted uppercase tracking-wider">
-                  Laravel · Validation
-                </span>
-                <span className="size-1 rounded-full bg-lam-text-muted/50" />
-                <span className="text-[10px] font-medium text-lam-orange">
-                  المهمة الفضائية
-                </span>
-              </div>
-              <h1 className="text-sm sm:text-base font-bold text-lam-text truncate leading-tight">
-                التحقق من بيانات رواد الفضاء قبل الإطلاق
-              </h1>
-            </div>
-
-            <div className="hidden md:flex items-center gap-2">
-              <div className="lam-glass rounded-lg px-2.5 py-1.5 flex items-center gap-1.5">
-                <Trophy className="size-3.5 text-lam-gold" />
-                <span className="text-xs font-bold text-lam-gold">
-                  {xp.toLocaleString("ar-EG")} XP
-                </span>
-              </div>
-              <div className="lam-glass rounded-lg px-2.5 py-1.5">
-                <span className="text-[11px] font-mono text-lam-text-muted">
-                  الخطوة{" "}
-                  <span className="text-lam-text font-bold">
-                    {stepIndex + 1}
-                  </span>{" "}
-                  / {STEPS.length}
-                </span>
-              </div>
-            </div>
-
-            <Button
-              asChild
-              variant="ghost"
-              size="icon"
-              className="shrink-0 text-lam-text-muted hover:text-lam-text"
-              aria-label="خروج"
-            >
-              <Link href="/roadmap">
-                <X className="size-5" />
+      {!embedded && (
+        <header className="sticky top-0 z-40">
+          <div className="mx-auto max-w-[1400px] px-3 sm:px-4 pt-3 sm:pt-4">
+            <div className="lam-glass-strong rounded-2xl px-3 sm:px-4 py-2.5 flex items-center gap-3 border border-border/60">
+              <Link href={`/roadmap/${technology}`} className="shrink-0">
+                <LamLogo size={28} showWordmark={false} />
               </Link>
-            </Button>
-          </div>
+              <div className="hidden sm:block h-6 w-px bg-border" />
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-[10px] font-mono text-lam-text-muted uppercase tracking-wider">
+                    Laravel · Validation
+                  </span>
+                  <span className="size-1 rounded-full bg-lam-text-muted/50" />
+                  <span className="text-[10px] font-medium text-lam-orange">
+                    المهمة الفضائية
+                  </span>
+                </div>
+                <h1 className="text-sm sm:text-base font-bold text-lam-text truncate leading-tight">
+                  التحقق من بيانات رواد الفضاء قبل الإطلاق
+                </h1>
+              </div>
 
-          {/* Progress bar */}
-          <div className="mt-2 h-1 rounded-full bg-secondary/60 overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-l from-lam-gold via-lam-orange to-lam-gold-bright"
-            />
-          </div>
-        </div>
-      </header>
+              <div className="hidden md:flex items-center gap-2">
+                <div className="lam-glass rounded-lg px-2.5 py-1.5 flex items-center gap-1.5">
+                  <Trophy className="size-3.5 text-lam-gold" />
+                  <span className="text-xs font-bold text-lam-gold">
+                    {xp.toLocaleString("ar-EG")} XP
+                  </span>
+                </div>
+                <div className="lam-glass rounded-lg px-2.5 py-1.5">
+                  <span className="text-[11px] font-mono text-lam-text-muted">
+                    الخطوة{" "}
+                    <span className="text-lam-text font-bold">
+                      {stepIndex + 1}
+                    </span>{" "}
+                    / {STEPS.length}
+                  </span>
+                </div>
+              </div>
 
-      {/* Main */}
+              <Button
+                asChild
+                variant="ghost"
+                size="icon"
+                className="shrink-0 text-lam-text-muted hover:text-lam-text"
+                aria-label="خروج"
+              >
+                <Link href={`/roadmap/${technology}`}>
+                  <X className="size-5" />
+                </Link>
+              </Button>
+            </div>
+
+            {/* Progress bar */}
+            <div className="mt-2 h-1 rounded-full bg-secondary/60 overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-l from-lam-gold via-lam-orange to-lam-gold-bright"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          </div>
+        </header>
+      )}
+
       <main className="relative mx-auto max-w-[1400px] px-3 sm:px-4 py-5 sm:py-7 space-y-5 sm:space-y-6">
         <LessonHeader
           activeStep={activeStep}
@@ -331,7 +333,7 @@ export function LessonExperience() {
             variant="ghost"
             className="text-lam-text-muted hover:text-lam-text"
           >
-            <Link href="/roadmap">
+            <Link href={`/roadmap/${technology}`}>
               <ArrowLeft className="size-4 ml-2 rotate-180" />
               العودة للمسار
             </Link>

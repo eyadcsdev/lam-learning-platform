@@ -9,6 +9,7 @@ import {
   CheckCircle2,
   Sparkles,
 } from "lucide-react"
+import { useXp } from "@/lib/xp-context"
 
 const COMMANDS = [
   {
@@ -40,12 +41,11 @@ const COMMANDS = [
 export function ArtisanSection({
   onNext,
   onMessageChange,
-  onXpGain,
 }: {
   onNext: () => void
   onMessageChange: (msg: string) => void
-  onXpGain: (amount: number) => void
 }) {
+  const { addXp } = useXp()
   const [revealed, setRevealed] = useState<number[]>([])
   const [done, setDone] = useState(false)
 
@@ -56,7 +56,7 @@ export function ArtisanSection({
   const handleReveal = (i: number) => {
     if (!revealed.includes(i)) {
       setRevealed((prev) => [...prev, i])
-      onXpGain(5)
+      addXp(5)
       onMessageChange(COMMANDS[i].detail.slice(0, 60) + "...")
     }
   }
@@ -144,7 +144,7 @@ export function ArtisanSection({
               <button
                 onClick={() => {
                   setDone(true)
-                  onXpGain(20)
+                  addXp(20)
                   onMessageChange("حان وقت التطبيق! لنقم ببعض المهام الصغيرة.")
                   setTimeout(onNext, 600)
                 }}

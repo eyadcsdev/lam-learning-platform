@@ -1,17 +1,17 @@
 import { useEffect, useState, useRef } from "react"
 import { ChevronLeft, Globe, Server, ArrowLeft, ArrowRight, CheckCircle2, Code } from "lucide-react"
+import { useXp } from "@/lib/xp-context"
 
 export function MiniDemo({
   onNext,
   onMessageChange,
-  onXpGain,
 }: {
   onNext: () => void
   onMessageChange: (msg: string) => void
-  onXpGain: (amount: number) => void
 }) {
   const [phase, setPhase] = useState<"idle" | "browser" | "routing" | "response">("idle")
   const [done, setDone] = useState(false)
+  const { addXp } = useXp()
   const [visited, setVisited] = useState(false)
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export function MiniDemo({
       setTimeout(() => {
         setPhase("response")
         onMessageChange("الـ Closure يُعيد view('welcome'). Laravel يحوّلها إلى استجابة HTML ويعيدها للمتصفح.")
-        onXpGain(20)
+        addXp(20)
 
         setTimeout(() => {
           setDone(true)

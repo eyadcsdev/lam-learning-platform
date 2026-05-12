@@ -23,7 +23,7 @@ export function RoadmapCta() {
         size="lg"
         className="h-12 px-7 text-base font-bold bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl"
       >
-        <Link href="/lessons/validation">
+        <Link href="/roadmap/laravel/lessons/validation-docs">
           ابدأ المستوى الأول
           <ArrowLeft className="size-4 mr-2" />
         </Link>

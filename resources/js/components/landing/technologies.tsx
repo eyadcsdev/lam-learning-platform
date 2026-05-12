@@ -1,66 +1,24 @@
 "use client"
 
 import { Link } from "@inertiajs/react"
-import { Box, Code2, Container, FileCode2, Layers3, Server, ArrowLeft } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
+import { Code2, ArrowLeft } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 
-interface Tech {
-  name: string
-  arabicTagline: string
-  icon: LucideIcon
-  status: "available" | "soon"
-  href?: string
-  accent: string
+const techIcons: Record<string, string> = {
+  laravel: "🐘",
+  react: "⚛️",
+  nextjs: "▲",
+  vue: "💚",
 }
 
-const techs: Tech[] = [
-  {
-    name: "Laravel",
-    arabicTagline: "إطار عمل PHP الأقوى للويب",
-    icon: Code2,
-    status: "available",
-    href: "/roadmap",
-    accent: "from-lam-red/30 via-lam-orange/20 to-transparent",
-  },
-  {
-    name: "React",
-    arabicTagline: "بناء واجهات حديثة وتفاعلية",
-    icon: Layers3,
-    status: "soon",
-    accent: "from-lam-blue/30 via-lam-blue/10 to-transparent",
-  },
-  {
-    name: "Node.js",
-    arabicTagline: "تشغيل JavaScript على السيرفر",
-    icon: Server,
-    status: "soon",
-    accent: "from-lam-green/30 via-lam-green/10 to-transparent",
-  },
-  {
-    name: "Next.js",
-    arabicTagline: "إطار React للأبطال",
-    icon: FileCode2,
-    status: "soon",
-    accent: "from-lam-text-muted/30 via-lam-text-muted/5 to-transparent",
-  },
-  {
-    name: "TypeScript",
-    arabicTagline: "JavaScript بأنواع آمنة",
-    icon: Box,
-    status: "soon",
-    accent: "from-lam-blue/30 via-lam-blue/10 to-transparent",
-  },
-  {
-    name: "Docker",
-    arabicTagline: "حاويات لكل بيئة تشغيل",
-    icon: Container,
-    status: "soon",
-    accent: "from-lam-blue/30 via-lam-blue/10 to-transparent",
-  },
-]
+const accentMap: Record<string, string> = {
+  laravel: "from-lam-red/30 via-lam-orange/20 to-transparent",
+  react: "from-lam-blue/30 via-lam-blue/10 to-transparent",
+  nextjs: "from-lam-text-muted/30 via-lam-text-muted/5 to-transparent",
+  vue: "from-lam-green/30 via-lam-green/10 to-transparent",
+}
 
-export function Technologies() {
+export function Technologies({ roadmaps = [] }: { roadmaps?: any[] }) {
   return (
     <section id="technologies" className="relative py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-4">
@@ -81,9 +39,12 @@ export function Technologies() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {techs.map((tech, i) => {
-            const Icon = tech.icon
-            const isAvailable = tech.status === "available"
+          {roadmaps.map((tech, i) => {
+            const isAvailable = tech.is_active
+            const accent = accentMap[tech.slug] || "from-lam-text-muted/30 via-lam-text-muted/5 to-transparent"
+            const icon = techIcons[tech.slug] || "🚧"
+            const href = isAvailable ? `/roadmap/${tech.slug}` : undefined
+
             const Card = (
               <div
                 className={`group relative overflow-hidden rounded-2xl border lam-glass p-6 transition-all duration-500 ${
@@ -92,20 +53,19 @@ export function Technologies() {
                     : "border-border/60 opacity-90"
                 }`}
               >
-                {/* gradient accent */}
                 <div
-                  className={`pointer-events-none absolute -top-20 -right-20 size-56 rounded-full bg-gradient-to-bl ${tech.accent} blur-2xl opacity-70 group-hover:opacity-100 transition-opacity`}
+                  className={`pointer-events-none absolute -top-20 -right-20 size-56 rounded-full bg-gradient-to-bl ${accent} blur-2xl opacity-70 group-hover:opacity-100 transition-opacity`}
                 />
 
                 <div className="relative flex items-start justify-between gap-3 mb-6">
                   <div
                     className={`size-12 rounded-xl grid place-items-center border ${
                       isAvailable
-                        ? "bg-primary/10 border-primary/30 text-primary"
-                        : "bg-secondary/60 border-border text-lam-text-muted"
+                        ? "bg-primary/10 border-primary/30 text-primary text-xl"
+                        : "bg-secondary/60 border-border text-lam-text-muted text-xl"
                     }`}
                   >
-                    <Icon className="size-6" />
+                    {icon}
                   </div>
                   {isAvailable ? (
                     <Badge className="bg-lam-green/15 text-lam-green border border-lam-green/30 hover:bg-lam-green/20 font-semibold gap-1.5">
@@ -120,10 +80,10 @@ export function Technologies() {
                 </div>
 
                 <h3 className="relative font-display text-2xl font-extrabold text-lam-text mb-1">
-                  {tech.name}
+                  {tech.title}
                 </h3>
                 <p className="relative text-sm text-lam-text-muted leading-relaxed">
-                  {tech.arabicTagline}
+                  {tech.subtitle}
                 </p>
 
                 {isAvailable && (
@@ -135,12 +95,12 @@ export function Technologies() {
               </div>
             )
 
-            return tech.href ? (
-              <Link key={tech.name} href={tech.href}>
+            return href ? (
+              <Link key={tech.slug} href={href}>
                 {Card}
               </Link>
             ) : (
-              <div key={tech.name}>{Card}</div>
+              <div key={tech.slug}>{Card}</div>
             )
           })}
         </div>

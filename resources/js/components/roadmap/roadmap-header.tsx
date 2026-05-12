@@ -3,7 +3,11 @@
 import { Code2, Flame, Sparkles, Trophy } from "lucide-react"
 import { Progress } from "@/components/ui/progress"
 
-export function RoadmapHeader() {
+export function RoadmapHeader({ roadmap }: { roadmap?: any }) {
+  const tech = roadmap?.title || 'Laravel'
+  const techSlug = roadmap?.slug || 'laravel'
+  const description = roadmap?.description || `رحلة كاملة لإتقان ${tech} من الصفر حتى بناء تطبيقات احترافية، موزّعة على مستويات تفاعلية ومحاكيات حية.`
+  const lessonCount = roadmap?.lessons?.length || 0
   return (
     <div className="lam-glass-strong rounded-3xl p-6 sm:p-8 lam-glow-gold">
       <div className="flex items-start justify-between flex-wrap gap-6">
@@ -13,30 +17,29 @@ export function RoadmapHeader() {
             <span className="tracking-wider">المسار النشط</span>
           </div>
           <div className="flex items-center gap-3 mb-2">
-            <div className="size-12 rounded-2xl bg-lam-red/15 border border-lam-red/30 grid place-items-center">
-              <Code2 className="size-6 text-lam-red" />
+            <div className="size-12 rounded-2xl bg-lam-orange/15 border border-lam-orange/30 grid place-items-center">
+              <Code2 className="size-6 text-lam-orange" />
             </div>
             <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight">
               <span className="lam-text-gradient">مسار</span>{" "}
-              <span className="lam-text-gradient-soft">Laravel</span>
+              <span className="lam-text-gradient-soft">{tech}</span>
             </h1>
           </div>
           <p className="text-sm sm:text-base text-lam-text-muted max-w-xl leading-relaxed">
-            رحلة كاملة لإتقان Laravel من الصفر حتى بناء واجهات API احترافية،
-            موزّعة على مستويات تفاعلية ومحاكيات حية.
+            {description}
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           <Stat
             icon={<Flame className="size-4 text-lam-orange" />}
-            label="السلسلة"
-            value="7 أيام"
+            label="الدروس"
+            value={`${lessonCount} دروس`}
           />
           <Stat
             icon={<Trophy className="size-4 text-lam-gold" />}
-            label="XP"
-            value="1,240"
+            label="المستوى"
+            value={techSlug}
           />
         </div>
       </div>
@@ -47,7 +50,7 @@ export function RoadmapHeader() {
             <span className="font-semibold text-lam-text-soft">
               التقدم في المسار
             </span>
-            <span className="font-mono text-lam-text-muted">1 من 7 مكتمل</span>
+            <span className="font-mono text-lam-text-muted">{lessonCount} دروس</span>
           </div>
           <div className="relative h-2.5 rounded-full bg-secondary overflow-hidden">
             <div

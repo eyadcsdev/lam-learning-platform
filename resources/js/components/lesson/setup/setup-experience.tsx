@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react"
 import { Link } from "@inertiajs/react"
 
 import { ArrowLeft, Trophy, X } from "lucide-react"
+import { useXp } from "@/lib/xp-context"
 import { LamLogo } from "@/components/lam-logo"
 import { AmbientBackdrop } from "@/components/ambient-backdrop"
 import { Button } from "@/components/ui/button"
@@ -39,9 +40,9 @@ export const SETUP_STEPS: { id: SetupStep; label: string }[] = [
   { id: "challenge", label: "التحدي النهائي" },
 ]
 
-export function SetupExperience() {
+export function SetupExperience({ technology = 'laravel' }: { technology?: string }) {
+  const { xp, addXp } = useXp()
   const [activeStep, setActiveStep] = useState<SetupStep>("intro")
-  const [xp, setXp] = useState(0)
   const [challengeSolved, setChallengeSolved] = useState(false)
   const [showConfetti, setShowConfetti] = useState(false)
   const [mascotMessage, setMascotMessage] = useState(
@@ -54,20 +55,15 @@ export function SetupExperience() {
     [stepIndex],
   )
 
-  const handleXpGain = (amount: number) => {
-    setXp((v) => v + amount)
-  }
-
-  const handleChallengeSolved = () => {
+  const handleChallengeSolved = async () => {
     if (challengeSolved) return
     setChallengeSolved(true)
-    handleXpGain(100)
     setShowConfetti(true)
     setMascotMessage(
       "أحسنت! 🎉 أنت الآن جاهز للانتقال إلى درس التحقق من البيانات. لقد أتقنت أساسيات Laravel!",
     )
     window.setTimeout(() => setShowConfetti(false), 2400)
-    fetch('/lessons/setup/complete', {
+    await fetch(`/roadmap/${technology}/lessons/setup/complete`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]')?.getAttribute('content') ?? '' },
     })
@@ -95,7 +91,7 @@ export function SetupExperience() {
       <header className="sticky top-0 z-40">
         <div className="mx-auto max-w-[1400px] px-3 sm:px-4 pt-3 sm:pt-4">
           <div className="lam-glass-strong rounded-2xl px-3 sm:px-4 py-2.5 flex items-center gap-3 border border-border/60">
-            <Link href="/roadmap" className="shrink-0">
+            <Link href={`/roadmap/${technology}`} className="shrink-0">
               <LamLogo size={28} showWordmark={false} />
             </Link>
             <div className="hidden sm:block h-6 w-px bg-border" />
@@ -116,11 +112,11 @@ export function SetupExperience() {
 
             <div className="hidden md:flex items-center gap-2">
               <div className="lam-glass rounded-lg px-2.5 py-1.5 flex items-center gap-1.5">
-                <Trophy className="size-3.5 text-lam-gold" />
-                <span className="text-xs font-bold text-lam-gold">
-                  {xp.toLocaleString("ar-EG")} XP
-                </span>
-              </div>
+                        <Trophy className="size-3.5 text-lam-gold" />
+                        <span className="text-xs font-bold text-lam-gold">
+                          {xp} XP
+                        </span>
+                      </div>
               <div className="lam-glass rounded-lg px-2.5 py-1.5">
                 <span className="text-[11px] font-mono text-lam-text-muted">
                   القسم{" "}
@@ -139,7 +135,7 @@ export function SetupExperience() {
               className="shrink-0 text-lam-text-muted hover:text-lam-text"
               aria-label="خروج"
             >
-              <Link href="/roadmap">
+              <Link href={`/roadmap/${technology}`}>
                 <X className="size-5" />
               </Link>
             </Button>
@@ -175,7 +171,6 @@ export function SetupExperience() {
               <ComparisonSection
                 onNext={goNext}
                 onMessageChange={setMascotMessage}
-                onXpGain={handleXpGain}
               />
             </div>
           </div>
@@ -195,7 +190,6 @@ export function SetupExperience() {
               <TerminalSimulator
                 onNext={goNext}
                 onMessageChange={setMascotMessage}
-                onXpGain={handleXpGain}
               />
             </div>
           </div>
@@ -215,7 +209,6 @@ export function SetupExperience() {
               <ProjectExplorer
                 onNext={goNext}
                 onMessageChange={setMascotMessage}
-                onXpGain={handleXpGain}
               />
             </div>
           </div>
@@ -225,7 +218,6 @@ export function SetupExperience() {
           <RequestLifecycleViz
             onNext={goNext}
             onMessageChange={setMascotMessage}
-            onXpGain={handleXpGain}
           />
         )}
 
@@ -233,7 +225,6 @@ export function SetupExperience() {
           <ArtisanSection
             onNext={goNext}
             onMessageChange={setMascotMessage}
-            onXpGain={handleXpGain}
           />
         )}
 
@@ -241,7 +232,6 @@ export function SetupExperience() {
           <MiniMissions
             onNext={goNext}
             onMessageChange={setMascotMessage}
-            onXpGain={handleXpGain}
           />
         )}
 
@@ -249,7 +239,6 @@ export function SetupExperience() {
           <MiniDemo
             onNext={() => setActiveStep("challenge")}
             onMessageChange={setMascotMessage}
-            onXpGain={handleXpGain}
           />
         )}
 
@@ -258,6 +247,7 @@ export function SetupExperience() {
             solved={challengeSolved}
             onSolve={handleChallengeSolved}
             onMessageChange={setMascotMessage}
+            technology={technology}
           />
         )}
 
@@ -283,7 +273,7 @@ export function SetupExperience() {
             variant="ghost"
             className="text-lam-text-muted hover:text-lam-text"
           >
-            <Link href="/roadmap">
+            <Link href={`/roadmap/${technology}`}>
               <ArrowLeft className="size-4 ml-2 rotate-180" />
               العودة للمسار
             </Link>
@@ -301,12 +291,11 @@ import { CheckCircle2, Code, FileCode, Layers, Server, Shield } from "lucide-rea
 function ComparisonSection({
   onNext,
   onMessageChange,
-  onXpGain,
 }: {
   onNext: () => void
   onMessageChange: (msg: string) => void
-  onXpGain: (amount: number) => void
 }) {
+  const { addXp } = useXp()
   const [revealed, setRevealed] = useState(false)
 
   useEffect(() => {
@@ -411,7 +400,7 @@ function ComparisonSection({
             onClick={() => {
               if (!revealed) {
                 setRevealed(true)
-                onXpGain(15)
+                addXp(15)
               }
               onMessageChange("رائع! الآن فهمت لماذا نحتاج Laravel. دعنا ننتقل إلى تهيئة البيئة.")
               setTimeout(onNext, 800)

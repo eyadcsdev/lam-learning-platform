@@ -15,6 +15,7 @@ import type { ReactNode } from "react"
 import { ValidationPlayground } from "./validation-playground"
 import { Link } from "@inertiajs/react"
 import { ArrowUpRight,Sparkles } from "lucide-react"
+import { LessonExperience } from "@/components/lesson/lesson-experience"
 
 /* ─── Types ─── */
 
@@ -1187,194 +1188,236 @@ const finalMissionSections: DocSection[] = [
             </div>
           ))}
         </div>
-        <Link
-          href="/lessons/validation"
-          className="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-l from-lam-gold via-lam-gold-bright to-lam-orange px-6 py-3 text-sm font-bold text-lam-bg-0 lam-glow-orange transition-transform hover:scale-[1.02]"
-        >
-          <Rocket className="size-4 group-hover:-translate-y-0.5 transition-transform" />
-          إطلاق المحاكاة الفضائية
-          <ArrowUpRight className="size-4 group-hover:-translate-y-0.5 transition-transform" />
-        </Link>
+        <div className="rounded-xl border border-lam-gold/30 bg-lam-gold/5 p-4 text-center">
+          <p className="text-sm text-lam-text-soft leading-relaxed mb-3">
+            المحاكاة التفاعلية متاحة الآن في الفصل التالي — انتقل إلى فصل "التطبيق العملي" لتجربتها مباشرة.
+          </p>
+        </div>
       </div>
     ),
   },
 ]
 
+/* ─── Interactive Lesson Chapter Sections ─── */
+function interactiveLessonSections(technology: string, isUnlocked: boolean): DocSection[] {
+  return [
+    {
+      id: "interactive-lesson",
+      title: "التطبيق العملي: التحقق من بيانات رواد الفضاء",
+      content: (
+        <div className="space-y-4">
+          <p className="text-sm sm:text-base text-lam-text-soft leading-relaxed">
+            حان وقت التطبيق العملي! جرّب محاكاة كاملة لدورة حياة طلب Laravel Validation.
+            أرسل بيانات رائد الفضاء، شاهد رحلة الطلب خطوة بخطوة، وراقب محرك التحقق أثناء عمله.
+          </p>
+          <div className="rounded-xl border border-lam-gold/30 bg-lam-gold/5 p-4">
+            <p className="text-xs text-lam-text-soft leading-relaxed">
+              <span className="font-bold text-lam-gold">تنبيه:</span> هذه المحاكاة التفاعلية ترسل طلب POST حقيقي إلى الخادم.
+              استخدم البيانات الصالحة لترى مسار النجاح (200 OK)، والبيانات الخاطئة لترى مسار الفشل (422 مع الأخطاء).
+            </p>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: "lesson-experience",
+      title: "المحاكاة التفاعلية",
+      content: (
+        <LessonExperience embedded technology={technology} />
+      ),
+    },
+  ]
+}
+
 /* ─── Master Chapter Registry ─── */
 
-export const CHAPTERS: Chapter[] = [
-  {
-    id: "introduction",
-    number: 1,
-    title: "Introduction",
-    subtitle: "لمحة شاملة عن التحقق في Laravel",
-    icon: BookOpen,
-    color: "gold",
-    sections: introSections,
-  },
-  {
-    id: "quickstart",
-    number: 2,
-    title: "Validation Quickstart",
-    subtitle: "البداية السريعة مع التحقق",
-    icon: Zap,
-    color: "orange",
-    sections: quickstartSections,
-  },
-  {
-    id: "request-lifecycle",
-    number: 3,
-    title: "Request Lifecycle",
-    subtitle: "رحلة الطلب الكاملة من البداية للنهاية",
-    icon: Route,
-    color: "blue",
-    sections: lifecycleSections,
-  },
-  {
-    id: "validation-rules",
-    number: 4,
-    title: "Validation Rules",
-    subtitle: "الدليل الكامل لقواعد التحقق",
-    icon: ListChecks,
-    color: "gold",
-    sections: rulesSections,
-  },
-  {
-    id: "displaying-errors",
-    number: 5,
-    title: "Displaying Errors",
-    subtitle: "عرض الأخطاء في الواجهة",
-    icon: AlertCircle,
-    color: "red",
-    sections: errorDisplaySections,
-  },
-  {
-    id: "xhr-validation",
-    number: 6,
-    title: "XHR Validation",
-    subtitle: "التحقق في طلبات AJAX",
-    icon: Globe,
-    color: "blue",
-    sections: xhrSections,
-  },
-  {
-    id: "form-request",
-    number: 7,
-    title: "Form Request Validation",
-    subtitle: "استخراج التحقق إلى Form Request",
-    icon: FileText,
-    color: "orange",
-    sections: formRequestSections,
-  },
-  {
-    id: "manual-validators",
-    number: 8,
-    title: "Manual Validators",
-    subtitle: "التحكم الكامل بـ Validator::make()",
-    icon: Terminal,
-    color: "gold",
-    sections: manualValidatorsSections,
-  },
-  {
-    id: "custom-messages",
-    number: 9,
-    title: "Custom Error Messages",
-    subtitle: "تخصيص رسائل الأخطاء",
-    icon: MessageSquare,
-    color: "green",
-    sections: customMessagesSections,
-  },
-  {
-    id: "nested-arrays",
-    number: 10,
-    title: "Nested Array Validation",
-    subtitle: "التحقق من المصفوفات المتداخلة",
-    icon: Layers,
-    color: "blue",
-    sections: nestedArraySections,
-  },
-  {
-    id: "file-validation",
-    number: 11,
-    title: "File Validation",
-    subtitle: "التحقق من تحميلات الملفات",
-    icon: File,
-    color: "orange",
-    sections: fileValidationSections,
-  },
-  {
-    id: "password-validation",
-    number: 12,
-    title: "Password Validation",
-    subtitle: "تحقق متقدم لكلمات المرور",
-    icon: KeyRound,
-    color: "green",
-    sections: passwordValidationSections,
-  },
-  {
-    id: "custom-rules",
-    number: 13,
-    title: "Custom Validation Rules",
-    subtitle: "إنشاء قواعد تحقق مخصصة",
-    icon: Shield,
-    color: "gold",
-    sections: customRulesSections,
-  },
-  {
-    id: "conditional",
-    number: 14,
-    title: "Conditional Validation",
-    subtitle: "التحقق الشرطي",
-    icon: ToggleLeft,
-    color: "orange",
-    sections: conditionalSections,
-  },
-  {
-    id: "validated-input",
-    number: 15,
-    title: "Validated Input",
-    subtitle: "الحصول على البيانات الصالحة فقط",
-    icon: Filter,
-    color: "blue",
-    sections: validatedInputSections,
-  },
-  {
-    id: "error-bags",
-    number: 16,
-    title: "Error Bags",
-    subtitle: "فصل الأخطاء في أكياس متعددة",
-    icon: FolderOpen,
-    color: "gold",
-    sections: errorBagsSections,
-  },
-  {
-    id: "advanced",
-    number: 17,
-    title: "Advanced Validation",
-    subtitle: "تقنيات متقدمة: after, stopOnFirstFailure",
-    icon: Code,
-    color: "orange",
-    sections: advancedSections,
-  },
-  {
-    id: "playground",
-    number: 18,
-    title: "Interactive Playground",
-    subtitle: "بيئة اختبار تفاعلية",
-    icon: Gamepad2,
-    color: "green",
-    sections: playgroundSections,
-  },
-  {
-    id: "final-mission",
-    number: 19,
-    title: "Final Mission",
-    subtitle: "المهمة النهائية: محاكاة إطلاق فضائي",
-    icon: Rocket,
-    color: "gold",
-    sections: finalMissionSections,
-  },
-]
+export function getChapters(technology = 'laravel', isUnlocked = true): Chapter[] {
+  return [
+    {
+      id: "introduction",
+      number: 1,
+      title: "Introduction",
+      subtitle: "لمحة شاملة عن التحقق في Laravel",
+      icon: BookOpen,
+      color: "gold",
+      sections: introSections,
+    },
+    {
+      id: "quickstart",
+      number: 2,
+      title: "Validation Quickstart",
+      subtitle: "البداية السريعة مع التحقق",
+      icon: Zap,
+      color: "orange",
+      sections: quickstartSections,
+    },
+    {
+      id: "request-lifecycle",
+      number: 3,
+      title: "Request Lifecycle",
+      subtitle: "رحلة الطلب الكاملة من البداية للنهاية",
+      icon: Route,
+      color: "blue",
+      sections: lifecycleSections,
+    },
+    {
+      id: "validation-rules",
+      number: 4,
+      title: "Validation Rules",
+      subtitle: "الدليل الكامل لقواعد التحقق",
+      icon: ListChecks,
+      color: "gold",
+      sections: rulesSections,
+    },
+    {
+      id: "displaying-errors",
+      number: 5,
+      title: "Displaying Errors",
+      subtitle: "عرض الأخطاء في الواجهة",
+      icon: AlertCircle,
+      color: "red",
+      sections: errorDisplaySections,
+    },
+    {
+      id: "xhr-validation",
+      number: 6,
+      title: "XHR Validation",
+      subtitle: "التحقق في طلبات AJAX",
+      icon: Globe,
+      color: "blue",
+      sections: xhrSections,
+    },
+    {
+      id: "form-request",
+      number: 7,
+      title: "Form Request Validation",
+      subtitle: "استخراج التحقق إلى Form Request",
+      icon: FileText,
+      color: "orange",
+      sections: formRequestSections,
+    },
+    {
+      id: "manual-validators",
+      number: 8,
+      title: "Manual Validators",
+      subtitle: "التحكم الكامل بـ Validator::make()",
+      icon: Terminal,
+      color: "gold",
+      sections: manualValidatorsSections,
+    },
+    {
+      id: "custom-messages",
+      number: 9,
+      title: "Custom Error Messages",
+      subtitle: "تخصيص رسائل الأخطاء",
+      icon: MessageSquare,
+      color: "green",
+      sections: customMessagesSections,
+    },
+    {
+      id: "nested-arrays",
+      number: 10,
+      title: "Nested Array Validation",
+      subtitle: "التحقق من المصفوفات المتداخلة",
+      icon: Layers,
+      color: "blue",
+      sections: nestedArraySections,
+    },
+    {
+      id: "file-validation",
+      number: 11,
+      title: "File Validation",
+      subtitle: "التحقق من تحميلات الملفات",
+      icon: File,
+      color: "orange",
+      sections: fileValidationSections,
+    },
+    {
+      id: "password-validation",
+      number: 12,
+      title: "Password Validation",
+      subtitle: "تحقق متقدم لكلمات المرور",
+      icon: KeyRound,
+      color: "green",
+      sections: passwordValidationSections,
+    },
+    {
+      id: "custom-rules",
+      number: 13,
+      title: "Custom Validation Rules",
+      subtitle: "إنشاء قواعد تحقق مخصصة",
+      icon: Shield,
+      color: "gold",
+      sections: customRulesSections,
+    },
+    {
+      id: "conditional",
+      number: 14,
+      title: "Conditional Validation",
+      subtitle: "التحقق الشرطي",
+      icon: ToggleLeft,
+      color: "orange",
+      sections: conditionalSections,
+    },
+    {
+      id: "validated-input",
+      number: 15,
+      title: "Validated Input",
+      subtitle: "الحصول على البيانات الصالحة فقط",
+      icon: Filter,
+      color: "blue",
+      sections: validatedInputSections,
+    },
+    {
+      id: "error-bags",
+      number: 16,
+      title: "Error Bags",
+      subtitle: "فصل الأخطاء في أكياس متعددة",
+      icon: FolderOpen,
+      color: "gold",
+      sections: errorBagsSections,
+    },
+    {
+      id: "advanced",
+      number: 17,
+      title: "Advanced Validation",
+      subtitle: "تقنيات متقدمة: after, stopOnFirstFailure",
+      icon: Code,
+      color: "orange",
+      sections: advancedSections,
+    },
+    {
+      id: "playground",
+      number: 18,
+      title: "Interactive Playground",
+      subtitle: "بيئة اختبار تفاعلية",
+      icon: Gamepad2,
+      color: "green",
+      sections: playgroundSections,
+    },
+    {
+      id: "final-mission",
+      number: 19,
+      title: "Final Mission",
+      subtitle: "المهمة النهائية: محاكاة إطلاق فضائي",
+      icon: Rocket,
+      color: "gold",
+      sections: finalMissionSections,
+    },
+    {
+      id: "interactive-practice",
+      number: 20,
+      title: "التطبيق العملي",
+      subtitle: "التحقق من بيانات رواد الفضاء",
+      icon: Swords,
+      color: "orange",
+      sections: interactiveLessonSections(technology, isUnlocked),
+    },
+  ]
+}
+
+// Kept for backward compatibility
+export const CHAPTERS = getChapters()
 
 export function DocSectionRenderer({ section }: { section: DocSection }) {
   return (

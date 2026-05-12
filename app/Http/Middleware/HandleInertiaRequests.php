@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Roadmaps\RoadmapRegistry;
 use App\Services\ProgressionService;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -20,9 +21,11 @@ class HandleInertiaRequests extends Middleware
         $user = $request->user();
 
         $progression = [];
+        $defaultTech = 'laravel';
+
         if ($user) {
             $service = app(ProgressionService::class);
-            $progression = $service->progressionData($user);
+            $progression = $service->progressionData($user, $defaultTech);
         }
 
         return [
@@ -40,6 +43,11 @@ class HandleInertiaRequests extends Middleware
                     'current_lesson' => $progression['current_lesson'] ?? 'setup',
                 ] : null,
             ],
+            'flash' => [
+                'error' => $request->session()->get('error'),
+                'success' => $request->session()->get('success'),
+            ],
+            'roadmaps' => app(RoadmapRegistry::class)->allToArray(),
         ];
     }
 }

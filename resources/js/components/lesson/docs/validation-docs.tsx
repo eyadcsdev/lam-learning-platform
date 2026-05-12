@@ -8,17 +8,18 @@ import {
 import { LamLogo } from "@/components/lam-logo"
 import { AmbientBackdrop } from "@/components/ambient-backdrop"
 import { Button } from "@/components/ui/button"
-import { CHAPTERS, DocSectionRenderer, type Chapter } from "./chapter-registry"
+import { getChapters, DocSectionRenderer, type Chapter } from "./chapter-registry"
 
-export function ValidationDocs() {
+export function ValidationDocs({ technology = 'laravel', isUnlocked = true }: { technology?: string; isUnlocked?: boolean }) {
   const [activeChapter, setActiveChapter] = useState(0)
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
   const [progress, setProgress] = useState(0)
   const contentRef = useRef<HTMLDivElement>(null)
 
-  const chapter = CHAPTERS[activeChapter]
-  const isLast = activeChapter === CHAPTERS.length - 1
+  const chapters = getChapters(technology, isUnlocked)
+  const chapter = chapters[activeChapter]
+  const isLast = activeChapter === chapters.length - 1
   const isFirst = activeChapter === 0
 
   useEffect(() => {
@@ -32,7 +33,7 @@ export function ValidationDocs() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const filteredChapters = CHAPTERS.filter(
+  const filteredChapters = chapters.filter(
     (c) =>
       c.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       c.subtitle.includes(searchQuery)
@@ -60,7 +61,7 @@ export function ValidationDocs() {
             >
               {sidebarOpen ? <X className="size-4 text-lam-text-muted" /> : <Menu className="size-4 text-lam-text-muted" />}
             </button>
-            <Link href="/roadmap" className="shrink-0">
+            <Link href={`/roadmap/${technology}`} className="shrink-0">
               <LamLogo size={26} showWordmark={false} />
             </Link>
             <div className="hidden sm:block h-5 w-px bg-border" />
@@ -71,7 +72,7 @@ export function ValidationDocs() {
                 </span>
                 <span className="size-1 rounded-full bg-lam-text-muted/50" />
                 <span className="text-[10px] font-medium text-lam-gold">
-                  {chapter.number}/{CHAPTERS.length}
+                  {chapter.number}/{chapters.length}
                 </span>
               </div>
               <h1 className="text-sm font-bold text-lam-text truncate leading-tight">
@@ -82,12 +83,12 @@ export function ValidationDocs() {
               <div className="lam-glass rounded-lg px-2.5 py-1.5 flex items-center gap-1.5">
                 <Trophy className="size-3.5 text-lam-gold" />
                 <span className="text-xs font-bold text-lam-gold">
-                  {activeChapter + 1} / {CHAPTERS.length}
+                  {activeChapter + 1} / {chapters.length}
                 </span>
               </div>
             </div>
             <Button asChild variant="ghost" size="icon" className="shrink-0 text-lam-text-muted hover:text-lam-text">
-              <Link href="/roadmap"><X className="size-5" /></Link>
+              <Link href={`/roadmap/${technology}`}><X className="size-5" /></Link>
             </Button>
           </div>
         </div>
@@ -113,7 +114,7 @@ export function ValidationDocs() {
 
                 {/* Chapter list */}
                 <nav className="flex-1 overflow-y-auto space-y-1 scrollbar-thin">
-                  {(searchQuery ? filteredChapters : CHAPTERS).map((ch, i) => {
+                  {(searchQuery ? filteredChapters : chapters).map((ch, i) => {
                     const isActive = i === activeChapter
                     const Icon = ch.icon
                     const colorMap: Record<string, string> = {
@@ -166,7 +167,7 @@ export function ValidationDocs() {
                 <div className="mt-3 pt-3 border-t border-border/60">
                   <div className="flex items-center gap-2 text-[10px] text-lam-text-muted">
                     <BookOpen className="size-3" />
-                    <span>{CHAPTERS.length} فصل · توثيق تفاعلي</span>
+                    <span>{chapters.length} فصل · توثيق تفاعلي</span>
                   </div>
                 </div>
               </div>
@@ -184,7 +185,7 @@ export function ValidationDocs() {
                 </div>
                 <div>
                   <div className="text-[10px] font-mono uppercase tracking-wider text-lam-text-muted">
-                    Chapter {String(chapter.number).padStart(2, "0")} / {String(CHAPTERS.length).padStart(2, "0")}
+                    Chapter {String(chapter.number).padStart(2, "0")} / {String(chapters.length).padStart(2, "0")}
                   </div>
                   <h2 className="font-serif text-2xl sm:text-3xl font-black text-lam-text">
                     {chapter.title}
@@ -217,13 +218,13 @@ export function ValidationDocs() {
                     className="text-lam-text-muted hover:text-lam-text"
                   >
                     <ChevronRight className="size-4 ml-2" />
-                    {CHAPTERS[activeChapter - 1].title}
+                    {chapters[activeChapter - 1].title}
                   </Button>
                 )}
               </div>
               <div className="flex items-center gap-2 text-[11px] text-lam-text-muted">
                 <CheckCircle2 className="size-3.5 text-lam-green" />
-                <span>{chapter.number}/{CHAPTERS.length}</span>
+                <span>{chapter.number}/{chapters.length}</span>
               </div>
               <div>
                 {!isLast && (
@@ -235,7 +236,7 @@ export function ValidationDocs() {
                     }}
                     className="text-lam-text-muted hover:text-lam-text"
                   >
-                    {CHAPTERS[activeChapter + 1].title}
+                    {chapters[activeChapter + 1].title}
                     <ChevronLeft className="size-4 mr-2" />
                   </Button>
                 )}
@@ -246,7 +247,7 @@ export function ValidationDocs() {
             <div className="lam-glass-strong rounded-2xl border border-border/60 p-5">
               <h3 className="font-bold text-sm text-lam-text mb-3">فهرس الفصول</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-                {CHAPTERS.map((ch, i) => {
+                {chapters.map((ch, i) => {
                   const Icon = ch.icon
                   const isActive = i === activeChapter
                   return (

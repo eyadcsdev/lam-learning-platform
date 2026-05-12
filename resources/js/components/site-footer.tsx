@@ -90,6 +90,33 @@ export function SiteFooter() {
             </div>
           ))}
 
+          <div className="lg:col-span-3">
+            <h4 className="font-display text-sm font-bold text-lam-text mb-4">
+              ساهم في تطوير لام
+            </h4>
+            <p className="text-xs text-lam-text-muted mb-4 leading-relaxed">
+              لام مشروع مفتوح المصدر يُبنى بالمطورين. ساهم باقتراح، تحسين، أو كود.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { label: "عرض المشروع على GitHub", href: "https://github.com/eyadcsdev/lam-learning-platform" },
+                { label: "المساهمة في التطوير", href: "https://github.com/eyadcsdev/lam-learning-platform" },
+                { label: "الإبلاغ عن مشكلة", href: "https://github.com/eyadcsdev/lam-learning-platform/issues" },
+                { label: "اقتراح ميزة", href: "https://github.com/eyadcsdev/lam-learning-platform/issues" },
+              ].map((b) => (
+                <a
+                  key={b.label}
+                  href={b.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block rounded-lg border border-border/60 bg-secondary/40 px-3 py-1.5 text-xs font-medium text-lam-text-muted hover:text-lam-gold hover:border-primary/40 hover:bg-primary/5 transition-colors"
+                >
+                  {b.label}
+                </a>
+              ))}
+            </div>
+          </div>
+
           <div className="lg:col-span-2">
             <h4 className="font-display text-sm font-bold text-lam-text mb-4">
               النشرة

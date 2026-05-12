@@ -11,7 +11,11 @@ const achievements = [
   { icon: Rocket, label: "مطلق المهام", earned: false, color: "text-lam-text-muted" },
 ]
 
-export function RoadmapSidebar() {
+export function RoadmapSidebar({ roadmap, technology, progression }: { roadmap?: any; technology?: string; progression?: any }) {
+  const firstLesson = roadmap?.lessons?.[0]
+  const currentLessonSlug = progression?.current_lesson || firstLesson?.slug || 'setup'
+  const currentLesson = roadmap?.lessons?.find((l: any) => l.slug === currentLessonSlug)
+  const currentLessonXp = currentLesson?.xp_reward || 120
   return (
     <div className="space-y-4 lg:sticky lg:top-28">
       {/* Current mission */}
@@ -21,10 +25,10 @@ export function RoadmapSidebar() {
           <span className="tracking-wider">المهمة الحالية</span>
         </div>
         <h3 className="font-display text-xl font-extrabold text-lam-text leading-tight">
-          التحقق من البيانات
+          {currentLesson?.title || 'التحقق من البيانات'}
         </h3>
         <p className="text-xs text-lam-text-muted mt-1.5 leading-relaxed">
-          مهمة فضائية لفحص بيانات رواد الفضاء قبل الإطلاق.
+          {currentLesson?.subtitle || 'مهمة فضائية لفحص بيانات رواد الفضاء قبل الإطلاق.'}
         </p>
         <div className="mt-4 flex items-center gap-2">
           <div className="flex-1 h-1.5 rounded-full bg-secondary overflow-hidden">
@@ -34,7 +38,7 @@ export function RoadmapSidebar() {
         </div>
         <div className="mt-4 flex items-center justify-between text-[11px]">
           <span className="text-lam-text-muted">المكافأة</span>
-          <span className="font-display text-base font-black lam-text-gradient">+120 XP</span>
+          <span className="font-display text-base font-black lam-text-gradient">+{currentLessonXp} XP</span>
         </div>
       </div>
 

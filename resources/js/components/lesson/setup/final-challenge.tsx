@@ -16,10 +16,12 @@ export function FinalChallenge({
   solved,
   onSolve,
   onMessageChange,
+  technology = 'laravel',
 }: {
   solved: boolean
   onSolve: () => void
   onMessageChange: (msg: string) => void
+  technology?: string
 }) {
   const [value, setValue] = useState("")
   const [feedback, setFeedback] = useState<"idle" | "wrong">("idle")
@@ -194,7 +196,7 @@ export function FinalChallenge({
                 كيف تُهيّئ البيئة، وكيف تتدفق الطلبات داخل التطبيق. أنت مستعد للخطوة التالية.
               </p>
               <Link
-                href="/lessons/validation-docs"
+                href={`/roadmap/${technology}/lessons/validation-docs`}
                 className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-l from-lam-gold to-lam-orange px-8 py-3.5 text-base font-bold text-lam-bg-0 lam-glow-gold hover:scale-105 transition-transform"
               >
                 اذهب إلى درس التحقق

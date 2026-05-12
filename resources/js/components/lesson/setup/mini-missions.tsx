@@ -9,6 +9,7 @@ import {
   Globe,
   Sparkles,
 } from "lucide-react"
+import { useXp } from "@/lib/xp-context"
 
 const MISSIONS = [
   {
@@ -51,12 +52,11 @@ const MISSIONS = [
 export function MiniMissions({
   onNext,
   onMessageChange,
-  onXpGain,
 }: {
   onNext: () => void
   onMessageChange: (msg: string) => void
-  onXpGain: (amount: number) => void
 }) {
+  const { addXp } = useXp()
   const [completed, setCompleted] = useState<string[]>([])
   const [showHint, setShowHint] = useState<string | null>(null)
 
@@ -69,7 +69,7 @@ export function MiniMissions({
     setCompleted((prev) => [...prev, id])
     const mission = MISSIONS.find((m) => m.id === id)
     if (mission) {
-      onXpGain(mission.xp)
+      addXp(mission.xp)
       onMessageChange(`أحسنت! أكملت مهمة "${mission.label}" وحصلت على +${mission.xp} XP!`)
     }
   }
@@ -183,7 +183,7 @@ export function MiniMissions({
               </div>
               <button
                 onClick={() => {
-                  onXpGain(75)
+                  addXp(75)
                   onMessageChange("ممتاز! أنت جاهز للتجربة التفاعلية. دعنا نرى كيف يعمل Laravel مع متصفح.")
                   setTimeout(onNext, 600)
                 }}

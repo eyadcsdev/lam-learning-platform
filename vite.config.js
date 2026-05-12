@@ -5,19 +5,24 @@ import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 
 export default defineConfig({
+    base: '/lam/',
+
     plugins: [
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.jsx'],
             refresh: true,
         }),
+
         react(),
         tailwindcss(),
     ],
+
     resolve: {
         alias: {
             '@': path.resolve(__dirname, 'resources/js'),
         },
     },
+
     server: {
         watch: {
             ignored: ['**/storage/framework/views/**'],

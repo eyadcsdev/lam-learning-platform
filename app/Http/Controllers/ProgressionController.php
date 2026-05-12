@@ -12,29 +12,24 @@ class ProgressionController extends Controller
         protected ProgressionService $progression
     ) {}
 
-    public function complete(Request $request, string $lesson): JsonResponse
+    public function complete(Request $request, string $technology, string $lesson): JsonResponse
     {
         $user = $request->user();
 
-        $allowed = ['setup', 'validation', 'routing'];
-        if (!in_array($lesson, $allowed)) {
-            return response()->json(['message' => 'الدرس غير موجود'], 404);
-        }
-
-        if (!$this->progression->isLessonUnlocked($user, $lesson)) {
+        if (!$this->progression->isLessonUnlocked($user, $technology, $lesson)) {
             return response()->json(['message' => 'هذا الدرس مقفل'], 403);
         }
 
-        $result = $this->progression->completeLesson($user, $lesson);
+        $result = $this->progression->completeLesson($user, $technology, $lesson);
 
         return response()->json($result);
     }
 
-    public function status(Request $request): JsonResponse
+    public function status(Request $request, string $technology): JsonResponse
     {
         $user = $request->user();
         return response()->json(
-            $this->progression->progressionData($user)
+            $this->progression->progressionData($user, $technology)
         );
     }
 }

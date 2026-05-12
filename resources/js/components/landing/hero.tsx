@@ -39,7 +39,7 @@ export function Hero() {
                 size="lg"
                 className="h-12 px-6 text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90 lam-glow-gold rounded-xl"
               >
-                <Link href="/roadmap">
+                <Link href="/roadmap/laravel">
                   ابدأ الآن
                   <ArrowLeft className="size-4 mr-2" />
                 </Link>
@@ -50,7 +50,7 @@ export function Hero() {
                 variant="outline"
                 className="h-12 px-6 text-base font-semibold rounded-xl border-border bg-secondary/40 hover:bg-secondary text-lam-text-soft hover:text-lam-text"
               >
-                <Link href="/lessons/validation">
+                <Link href="/roadmap/laravel/lessons/validation-docs">
                   <PlayCircle className="size-4 ml-2" />
                   شاهد التجربة
                 </Link>

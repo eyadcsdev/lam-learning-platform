@@ -10,6 +10,7 @@ import {
   Terminal,
   CheckCircle2,
 } from "lucide-react"
+import { useXp } from "@/lib/xp-context"
 
 interface FolderData {
   name: string
@@ -81,12 +82,11 @@ const FOLDERS: FolderData[] = [
 export function ProjectExplorer({
   onNext,
   onMessageChange,
-  onXpGain,
 }: {
   onNext: () => void
   onMessageChange: (msg: string) => void
-  onXpGain: (amount: number) => void
 }) {
+  const { addXp } = useXp()
   const [selected, setSelected] = useState<FolderData | null>(null)
   const [explored, setExplored] = useState<string[]>([])
   const [done, setDone] = useState(false)
@@ -99,7 +99,7 @@ export function ProjectExplorer({
     setSelected(folder)
     if (!explored.includes(folder.name)) {
       setExplored((prev) => [...prev, folder.name])
-      onXpGain(5)
+      addXp(5)
       onMessageChange(`ممتاز! مجلد ${folder.name}: ${folder.desc}`)
     }
   }
@@ -194,7 +194,7 @@ export function ProjectExplorer({
               <button
                 onClick={() => {
                   setDone(true)
-                  onXpGain(40)
+                  addXp(40)
                   onMessageChange("الآن فهمت هيكل Laravel! دعنا نرى كيف تتدفق الطلبات داخل هذا الهيكل.")
                   setTimeout(onNext, 600)
                 }}

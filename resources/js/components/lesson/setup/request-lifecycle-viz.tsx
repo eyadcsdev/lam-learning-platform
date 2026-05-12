@@ -9,6 +9,7 @@ import {
   Server,
   CheckCircle2,
 } from "lucide-react"
+import { useXp } from "@/lib/xp-context"
 
 const STAGES = [
   {
@@ -93,12 +94,11 @@ const STAGES = [
 export function RequestLifecycleViz({
   onNext,
   onMessageChange,
-  onXpGain,
 }: {
   onNext: () => void
   onMessageChange: (msg: string) => void
-  onXpGain: (amount: number) => void
 }) {
+  const { addXp } = useXp()
   const [activeStage, setActiveStage] = useState<string | null>(null)
   const [autoPlay, setAutoPlay] = useState(false)
   const [autoIdx, setAutoIdx] = useState(0)
@@ -258,7 +258,7 @@ export function RequestLifecycleViz({
               <button
                 onClick={() => {
                   setDone(true)
-                  onXpGain(30)
+                  addXp(30)
                   onMessageChange("فهمت! الآن تعرف كيف تتدفق الطلبات في Laravel. دعنا نتعرف على أداة Artisan السحرية.")
                   setTimeout(onNext, 600)
                 }}

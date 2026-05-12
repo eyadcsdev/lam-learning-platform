@@ -2,21 +2,18 @@
 
 namespace App\Providers;
 
+use App\Roadmaps\RoadmapRegistry;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
-        //
+        $this->app->singleton(RoadmapRegistry::class, function () {
+            return new RoadmapRegistry();
+        });
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         //

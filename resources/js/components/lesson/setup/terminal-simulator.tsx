@@ -41,14 +41,14 @@ const COMMANDS: Command[] = [
   },
 ]
 
+import { useXp } from "@/lib/xp-context"
+
 export function TerminalSimulator({
   onNext,
   onMessageChange,
-  onXpGain,
 }: {
   onNext: () => void
   onMessageChange: (msg: string) => void
-  onXpGain: (amount: number) => void
 }) {
   const [currentCmd, setCurrentCmd] = useState(0)
   const [running, setRunning] = useState(false)
@@ -58,6 +58,7 @@ export function TerminalSimulator({
   const [showExplanation, setShowExplanation] = useState(false)
   const [explanationIdx, setExplanationIdx] = useState<number | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const { addXp } = useXp()
   const [revealed, setRevealed] = useState(false)
 
   useEffect(() => {
@@ -66,7 +67,7 @@ export function TerminalSimulator({
 
   useEffect(() => {
     if (lastCompletedIdx !== null) {
-      onXpGain(10)
+      addXp(10)
     }
   }, [lastCompletedIdx])
 
@@ -193,13 +194,13 @@ export function TerminalSimulator({
               className="mt-6 text-center"
             >
               <p className="text-sm text-lam-green mb-3">+50 XP — أكملت جميع الأوامر!</p>
-              <button
-                onClick={() => {
-                  setRevealed(true)
-                  onXpGain(50)
-                  onMessageChange("ممتاز! أنشأنا مشروع Laravel وفهمنا كل أمر. الآن لنتفقد هيكل المشروع.")
-                  setTimeout(onNext, 600)
-                }}
+                <button
+                    onClick={() => {
+                      setRevealed(true)
+                      addXp(50)
+                      onMessageChange("ممتاز! أنشأنا مشروع Laravel وفهمنا كل أمر. الآن لنتفقد هيكل المشروع.")
+                      setTimeout(onNext, 600)
+                    }}
                 className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-l from-lam-green to-lam-blue px-6 py-3 text-sm font-bold text-lam-bg-0"
               >
                 هيا نستكشف المشروع

@@ -2,10 +2,12 @@ import { createInertiaApp, router } from '@inertiajs/react'
 import { createRoot } from 'react-dom/client'
 import { useEffect, useState } from 'react'
 import { LoadingScreen } from '@/components/loading-screen'
+import { XpProvider } from '@/lib/xp-context'
 import './../css/app.css'
 
 function AppWithLoader({ App, props }) {
   const [isLoading, setIsLoading] = useState(true)
+  const initialXp = props?.auth?.user?.xp ?? 0
 
   useEffect(() => {
     const show = () => setIsLoading(true)
@@ -23,10 +25,10 @@ function AppWithLoader({ App, props }) {
   }, [])
 
   return (
-    <>
+    <XpProvider initialXp={initialXp}>
       <LoadingScreen isLoading={isLoading} />
       <App {...props} />
-    </>
+    </XpProvider>
   )
 }
 

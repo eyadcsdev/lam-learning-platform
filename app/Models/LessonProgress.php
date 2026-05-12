@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class LessonProgress extends Model
 {
-    protected $fillable = ['user_id', 'lesson_slug', 'completed_at', 'xp_awarded'];
+    protected $fillable = ['user_id', 'roadmap_id', 'lesson_slug', 'completed_at', 'xp_awarded'];
 
     protected function casts(): array
     {
@@ -19,5 +19,10 @@ class LessonProgress extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function roadmap(): BelongsTo
+    {
+        return $this->belongsTo(Roadmap::class);
     }
 }

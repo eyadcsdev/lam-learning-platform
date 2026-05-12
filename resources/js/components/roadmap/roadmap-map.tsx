@@ -12,6 +12,10 @@ import {
   ShieldCheck,
   Workflow,
   Zap,
+  Globe,
+  Variable,
+  Box,
+  Route,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 
@@ -21,7 +25,7 @@ interface NodeData {
   subtitle: string
   icon: LucideIcon
   slug?: string
-  difficulty: "مبتدئ" | "متوسط" | "متقدم"
+  difficulty: string
   xp: number
   align: "right" | "center" | "left"
   href?: string
@@ -33,91 +37,61 @@ interface Node {
   subtitle: string
   icon: LucideIcon
   state: "completed" | "current" | "locked"
-  difficulty: "مبتدئ" | "متوسط" | "متقدم"
+  difficulty: string
   xp: number
   align: "right" | "center" | "left"
   href?: string
 }
 
-const nodes: NodeData[] = [
-  {
-    id: 0,
-    title: "البداية",
-    subtitle: "إعداد البيئة وأساسيات Laravel",
-    icon: Compass,
-    slug: "setup",
-    difficulty: "مبتدئ",
-    xp: 80,
-    align: "center",
-    href: "/lessons/setup",
-  },
-  {
-    id: 1,
-    title: "التحقق من البيانات",
-    subtitle: "Validation",
-    icon: ShieldCheck,
-    slug: "validation",
-    difficulty: "مبتدئ",
-    xp: 120,
-    align: "right",
-    href: "/lessons/validation-docs",
-  },
-  {
-    id: 2,
-    title: "التوجيه",
-    subtitle: "Routing",
-    icon: Network,
-    slug: "routing",
-    difficulty: "مبتدئ",
-    xp: 100,
-    align: "left",
-  },
-  {
-    id: 3,
-    title: "المتحكمات",
-    subtitle: "Controllers",
-    icon: Layers,
-    difficulty: "متوسط",
-    xp: 140,
-    align: "right",
-  },
-  {
-    id: 4,
-    title: "الوسطاء",
-    subtitle: "Middleware",
-    icon: Workflow,
-    difficulty: "متوسط",
-    xp: 160,
-    align: "left",
-  },
-  {
-    id: 5,
-    title: "المصادقة",
-    subtitle: "Authentication",
-    icon: KeyRound,
-    difficulty: "متوسط",
-    xp: 200,
-    align: "center",
-  },
-  {
-    id: 6,
-    title: "واجهات API",
-    subtitle: "APIs",
-    icon: Code2,
-    difficulty: "متقدم",
-    xp: 240,
-    align: "right",
-  },
-  {
-    id: 7,
-    title: "الطوابير",
-    subtitle: "Queues",
-    icon: Zap,
-    difficulty: "متقدم",
-    xp: 280,
-    align: "left",
-  },
-]
+const lessonIcons: Record<string, LucideIcon> = {
+  setup: Compass,
+  validation: ShieldCheck,
+  routing: Route,
+  database: Layers,
+  auth: KeyRound,
+  components: Box,
+  "state-management": Variable,
+  "api-calls": Globe,
+  "pages-router": Network,
+  "app-router": Code2,
+  "data-fetching": Zap,
+  deployment: Workflow,
+  "composition-api": Variable,
+}
+
+const alignments = ["center", "right", "left"]
+
+function buildNodes(roadmap: any, completed: string[], unlocked: string[], current: string, technology: string): Node[] {
+  if (!roadmap?.lessons) return []
+
+  return roadmap.lessons.map((lesson: any, i: number) => {
+    const Icon = lessonIcons[lesson.slug] || Code2
+    const slug = lesson.slug
+    let state: "completed" | "current" | "locked"
+    if (completed.includes(slug)) state = "completed"
+    else if (unlocked.includes(slug)) state = "current"
+    else state = "locked"
+
+    const href = state !== "locked"
+      ? slug === "validation-docs" || slug === "validation"
+        ? `/roadmap/${technology}/lessons/validation-docs`
+        : `/roadmap/${technology}/lessons/${slug}`
+      : undefined
+
+    return {
+      id: i,
+      title: lesson.title,
+      subtitle: lesson.subtitle || lesson.slug,
+      icon: Icon,
+      slug,
+      difficulty: lesson.difficulty || "مبتدئ",
+      xp: lesson.xp_reward || 100,
+      align: alignments[i % alignments.length] as "right" | "center" | "left",
+      href,
+      state,
+    }
+  })
+}
 
 function computeNodeState(node: Node, completed: string[], unlocked: string[], current: string): "completed" | "current" | "locked" {
   if (!node.slug) return "locked"
@@ -127,11 +101,13 @@ function computeNodeState(node: Node, completed: string[], unlocked: string[], c
   return "locked"
 }
 
-export function RoadmapMap() {
+export function RoadmapMap({ roadmap, technology = 'laravel' }: { roadmap?: any; technology?: string }) {
   const { auth } = usePage().props as any
   const completed: string[] = auth?.user?.completed_lessons ?? []
   const unlocked: string[] = auth?.user?.unlocked_lessons ?? []
   const current: string = auth?.user?.current_lesson ?? "setup"
+
+  const nodes = buildNodes(roadmap, completed, unlocked, current, technology)
 
   return (
     <div className="relative lam-glass-strong rounded-3xl p-5 sm:p-8 overflow-hidden">
@@ -238,7 +214,7 @@ function RoadmapNode({ node, idx }: { node: Node; idx: number }) {
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-0.5">
               <span className="text-[10px] font-mono text-lam-text-muted">
-                المستوى {String(node.id).padStart(2, "0")}
+                المستوى {String(node.id + 1).padStart(2, "0")}
               </span>
               <span className="size-1 rounded-full bg-lam-text-muted/50" />
               <span className="text-[10px] font-medium text-lam-text-muted">
